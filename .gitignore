@@ -1,42 +1,54 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# AgriRaksha AI
 
-# dependencies
+# Dependencies
 node_modules/
-
-# Expo
 .expo/
 dist/
-web-build/
-expo-env.d.ts
-
-# Native
-.kotlin/
-*.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-
-# Metro
-.metro-health-check*
-
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
-# macOS
-.DS_Store
-*.pem
-
-# local env files
-.env*.local
-
-# typescript
+build/
 *.tsbuildinfo
 
-# generated native folders
-/ios
-/android
+# Environment variables
 .env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+.eggs/
+
+# ML model weights
+ai-service/model_weights/*.pt
+ai-service/model_weights/*.pth
+ai-service/model_weights/*.onnx
+ai-service/model_weights/*.h5
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Uploads
+uploads/
+temp/
