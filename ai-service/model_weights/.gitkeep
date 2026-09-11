@@ -1,0 +1,6 @@
+# Placeholder — model weights directory
+# Place trained model files here:
+# - disease_model.pt (EfficientNet/MobileNet)
+# - pest_model.pt (YOLO)
+# - severity_model.pt (Segmentation)
+# These files are gitignored.

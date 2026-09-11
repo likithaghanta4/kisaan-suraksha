@@ -183,6 +183,7 @@ const AppNavigator: React.FC = () => {
         // Authenticated screens
         <>
           <Stack.Screen name="MainTabs" component={MainTabs} />
+          <Stack.Screen name="ProfileSetup" component={ProfileSetupScreen} />
           <Stack.Screen name="LanguageSelect" component={LanguageSelectScreen} />
           <Stack.Screen name="AddCrop" component={AddCropScreen} />
           <Stack.Screen name="CropDetail" component={CropDetailScreen} />

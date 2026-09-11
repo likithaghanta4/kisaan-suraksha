@@ -184,7 +184,7 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({ navigation }) => {
               {/* Edit Profile CTA */}
               <TouchableOpacity
                 style={styles.editProfileBtn}
-                onPress={() => navigation?.navigate('LanguageSelect', { fromSettings: true })}
+                onPress={() => navigation?.navigate('ProfileSetup', { isEditing: true })}
                 activeOpacity={0.75}
               >
                 <Text style={styles.editProfileIcon}>✏️</Text>
@@ -316,7 +316,7 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({ navigation }) => {
               {/* Manage Profile */}
               <TouchableOpacity
                 style={styles.settingCard}
-                onPress={() => navigation?.navigate('LanguageSelect', { fromSettings: true })}
+                onPress={() => navigation?.navigate('ProfileSetup', { isEditing: true })}
                 activeOpacity={0.8}
               >
                 <View style={styles.settingIconCircle}>

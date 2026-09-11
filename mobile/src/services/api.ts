@@ -114,7 +114,7 @@ class ApiService {
     return response.data;
   }
 
-  async runDiagnosis(data: { cropName: string; cropId?: string; sampleType?: string; imageUri?: string }) {
+  async runDiagnosis(data: { cropName: string; cropId?: string; sampleType?: string; imageUri?: string; isValidPlant?: boolean }) {
     const response = await this.client.post('/scans/analyze', data);
     return response.data;
   }

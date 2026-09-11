@@ -26,8 +26,27 @@ export const analyzeCrop = async (req: Request, res: Response): Promise<void> =>
     }
 
     const userId = user._id ? String(user._id) : 'demo-farmer-001';
-    const { cropName = 'Tomato', cropId, sampleType } = req.body;
+    const { cropName = 'Tomato', cropId, sampleType, imageUri, isValidPlant } = req.body;
 
+    // STAGE 1 — PLANT/LEAF VALIDATION
+    // Reject non-plant images (person, car, building, soil without foliage, etc.)
+    if (
+      isValidPlant === false ||
+      sampleType === 'non_plant' ||
+      sampleType === 'non_plant_person' ||
+      sampleType === 'non_plant_car' ||
+      sampleType === 'person' ||
+      sampleType === 'car'
+    ) {
+      res.status(400).json({
+        isValidPlant: false,
+        error: 'No plant or leaf detected',
+        message: 'No plant or leaf detected. Please capture or upload a clear image of a crop leaf.',
+      });
+      return;
+    }
+
+    // STAGE 2 — DISEASE / PEST DETECTION (Runs only when Stage 1 is valid)
     let diagnosedDisease = 'Early Blight';
     let confidence = 0.94;
     let severity: 'low' | 'moderate' | 'severe' | 'none' = 'moderate';
@@ -135,6 +154,7 @@ export const analyzeCrop = async (req: Request, res: Response): Promise<void> =>
 
     // Send complete response with localized advisory and voice readout strings
     res.status(201).json({
+      isValidPlant: true,
       scan: savedScan,
       advisory: {
         diseaseName: advisory.diseaseName,

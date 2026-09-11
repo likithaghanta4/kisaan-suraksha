@@ -54,14 +54,16 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
 }) => {
   const insets = useSafeAreaInsets();
   const { i18n } = useTranslation();
-  const { phone = '9876543210' } = route?.params || {};
-  const { setupProfile, language } = useAuth();
+  const { user, setupProfile, language } = useAuth();
 
-  // Form State
-  const [name, setName] = useState('');
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedDistrict, setSelectedDistrict] = useState('');
-  const [village, setVillage] = useState('');
+  const isEditing = route?.params?.isEditing || !!user?.name;
+  const phone = route?.params?.phone || user?.phone || '9876543210';
+
+  // Form State initialized from route params or logged-in user profile
+  const [name, setName] = useState(route?.params?.name || user?.name || '');
+  const [selectedState, setSelectedState] = useState(route?.params?.state || user?.state || '');
+  const [selectedDistrict, setSelectedDistrict] = useState(route?.params?.district || user?.district || '');
+  const [village, setVillage] = useState(route?.params?.village || user?.village || '');
 
   // Modals State
   const [stateModalVisible, setStateModalVisible] = useState(false);
@@ -147,10 +149,19 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
         village: village.trim() || undefined,
         language: language || 'en',
       });
-      navigation.replace('MainTabs');
+
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      } else {
+        navigation.replace('MainTabs');
+      }
     } catch (err: any) {
       console.warn('Profile setup warning (continuing to MainTabs):', err);
-      navigation.replace('MainTabs');
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      } else {
+        navigation.replace('MainTabs');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -229,9 +240,13 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
 
               {/* Heading Section */}
               <View style={styles.headingSection}>
-                <Text style={styles.mainHeading}>Create Your Profile</Text>
+                <Text style={styles.mainHeading}>
+                  {isEditing ? 'Manage & Edit Profile' : 'Create Your Profile'}
+                </Text>
                 <Text style={styles.subHeading}>
-                  Tell us a few details to personalize{'\n'}your Kisaan Suraksha experience
+                  {isEditing
+                    ? 'Update your personal details and farm location'
+                    : `Tell us a few details to personalize\nyour Kisaan Suraksha experience`}
                 </Text>
               </View>
 
@@ -361,7 +376,9 @@ export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({
                   {isLoading ? (
                     <ActivityIndicator size="small" color="#FFFFFF" />
                   ) : (
-                    <Text style={styles.ctaButtonText}>Continue →</Text>
+                    <Text style={styles.ctaButtonText}>
+                      {isEditing ? 'Save Profile Changes ✓' : 'Continue →'}
+                    </Text>
                   )}
                 </TouchableOpacity>
 
